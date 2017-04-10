@@ -1,0 +1,20 @@
+#IDEA Files
+.idea
+target
+*.iml
+*.ipr
+*.exec
+
+#Eclipse files
+*.settings
+*.classpath
+*.project
+*.pydevproject
+BenchmarkList
+CompilerHints
+db-fetcher.log*
+yt.properties
+
+#logs
+*.log
+*.log.*
