@@ -17,7 +17,7 @@ import static ru.lanwen.heisenbug.WiremockResolver.WIREMOCK_PORT;
 public class WiremockAddressResolver implements ParameterResolver {
     @Override
     public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext) {
-        return parameterContext.getParameter().isAnnotationPresent(MockedServerUri.class)
+        return parameterContext.getParameter().isAnnotationPresent(Uri.class)
                 && String.class.isAssignableFrom(parameterContext.getParameter().getType());
     }
 
@@ -28,12 +28,11 @@ public class WiremockAddressResolver implements ParameterResolver {
         return "http://localhost:" + store.get(WIREMOCK_PORT);
     }
 
-
     /**
      * To target host:port injection
      */
     @Target({ElementType.PARAMETER})
     @Retention(RetentionPolicy.RUNTIME)
-    public @interface MockedServerUri {
+    public @interface Uri {
     }
 }

@@ -8,7 +8,7 @@ import ru.lanwen.heisenbug.WiremockResolver;
  * You can create custom config to init wiremock server in test.
  *
  * @author lanwen (Merkushev Kirill)
- * @see WiremockResolver.MockedServer
+ * @see WiremockResolver.Server
  */
 public interface WiremockConfigFactory {
 

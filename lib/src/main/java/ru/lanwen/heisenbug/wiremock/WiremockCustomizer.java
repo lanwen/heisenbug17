@@ -8,7 +8,7 @@ import ru.lanwen.heisenbug.WiremockResolver;
  * Helps to create reusable customizer for injected wiremock server
  *
  * @author lanwen (Merkushev Kirill)
- * @see WiremockResolver.MockedServer
+ * @see WiremockResolver.Server
  */
 public interface WiremockCustomizer {
 

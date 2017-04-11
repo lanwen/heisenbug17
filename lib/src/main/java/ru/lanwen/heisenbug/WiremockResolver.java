@@ -43,7 +43,7 @@ public class WiremockResolver implements ParameterResolver, AfterEachCallback {
 
     @Override
     public boolean supports(ParameterContext parameterContext, ExtensionContext context) {
-        return parameterContext.getParameter().isAnnotationPresent(MockedServer.class);
+        return parameterContext.getParameter().isAnnotationPresent(Server.class);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class WiremockResolver implements ParameterResolver, AfterEachCallback {
             throw new IllegalStateException("Can't inject more than one server");
         }
 
-        MockedServer mockedServer = parameterContext.getParameter().getAnnotation(MockedServer.class);
+        Server mockedServer = parameterContext.getParameter().getAnnotation(Server.class);
 
 
         try {
@@ -90,7 +90,7 @@ public class WiremockResolver implements ParameterResolver, AfterEachCallback {
      */
     @Target({ElementType.PARAMETER})
     @Retention(RetentionPolicy.RUNTIME)
-    public @interface MockedServer {
+    public @interface Server {
         /**
          * @return class which defines on how to create config
          */
