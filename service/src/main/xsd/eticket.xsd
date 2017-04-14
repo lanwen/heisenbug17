@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:ns="urn:beans.heisenbug.lanwen.ru"
+           targetNamespace="urn:beans.heisenbug.lanwen.ru">
+
+    <xs:simpleType name="SchemaVersion">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="V1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Eticket">
+        <xs:sequence>
+            <xs:element name="meta" type="ns:EticketMeta"/>
+            <xs:element name="flights" type="ns:Flight" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="EticketMeta">
+        <xs:sequence>
+            <xs:element name="schema_version" type="ns:SchemaVersion" default="V1"/>
+            <xs:element name="origin" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Flight">
+        <xs:sequence>
+            <xs:element name="number" type="xs:string"/>
+            <xs:element name="status" type="xs:string"/>
+            <xs:element name="airline" type="ns:Airline"/>
+            <xs:element name="departure" type="ns:Airport"/>
+            <xs:element name="arrival" type="ns:Airport"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Airline">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="iata" type="xs:string"/>
+            <xs:element name="icao" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Airport">
+        <xs:sequence>
+            <xs:element name="scheduled" type="xs:string"/>
+            <xs:element name="iata" type="xs:string"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="city" type="ns:Region"/>
+            <xs:element name="country" type="ns:Region"/>
+            <xs:element name="tz" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Region">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="latitude" type="xs:double"/>
+            <xs:element name="longitude" type="xs:double"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

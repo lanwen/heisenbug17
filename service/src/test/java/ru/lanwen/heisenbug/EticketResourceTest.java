@@ -9,10 +9,11 @@ import ru.lanwen.heisenbug.WiremockResolver.Server;
 import ru.lanwen.heisenbug.app.TicketEndpoint;
 import ru.lanwen.heisenbug.beans.Airline;
 import ru.lanwen.heisenbug.beans.Airport;
-import ru.lanwen.heisenbug.beans.City;
 import ru.lanwen.heisenbug.beans.Eticket;
+import ru.lanwen.heisenbug.beans.EticketMeta;
 import ru.lanwen.heisenbug.beans.Flight;
-import ru.lanwen.heisenbug.beans.Meta;
+import ru.lanwen.heisenbug.beans.Region;
+import ru.lanwen.heisenbug.beans.SchemaVersion;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -32,7 +33,7 @@ import static ru.lanwen.heisenbug.app.TicketEndpoint.X_TICKET_ID_HEADER;
         WiremockResolver.class,
         WiremockAddressResolver.class
 })
-public class EticketResourceTest {
+class EticketResourceTest {
 
     @Test
     void shouldCreateTicket(@Server(customizer = TicketEndpoint.class) WireMockServer server, @Uri String uri) {
@@ -65,7 +66,7 @@ public class EticketResourceTest {
     @Test
     void shouldSaveTicketProps(@Server(customizer = TicketEndpoint.class) WireMockServer server, @Uri String uri) {
         Eticket original = new Eticket()
-                .withMeta(new Meta().withSchemaVersion("V1"))
+                .withMeta(new EticketMeta().withSchemaVersion(SchemaVersion.V_1))
                 .withFlights(Collections.singletonList(
                         new Flight()
                                 .withNumber("S7 232")
@@ -80,13 +81,13 @@ public class EticketResourceTest {
                                                 .withIata("VOZ")
                                                 .withScheduled("2017-04-29T10:25:00+03:00")
                                                 .withCity(
-                                                        new City()
+                                                        new Region()
                                                                 .withName("Воронеж")
                                                                 .withLatitude(51.661535)
                                                                 .withLongitude(39.200287)
                                                 )
                                                 .withCountry(
-                                                        new City()
+                                                        new Region()
                                                                 .withName("Россия")
                                                                 .withLatitude(61.698653)
                                                                 .withLongitude(99.505405)
@@ -99,13 +100,13 @@ public class EticketResourceTest {
                                                 .withIata("DME")
                                                 .withScheduled("2017-04-29T11:40:00+03:00")
                                                 .withCity(
-                                                        new City()
+                                                        new Region()
                                                                 .withName("Москва")
                                                                 .withLatitude(55.75396)
                                                                 .withLongitude(37.620393)
                                                 )
                                                 .withCountry(
-                                                        new City()
+                                                        new Region()
                                                                 .withName("Россия")
                                                                 .withLatitude(61.698653)
                                                                 .withLongitude(99.505405)
