@@ -22,6 +22,10 @@ public class Eticket implements Serializable {
         return this.flights;
     }
 
+    public void setFlights(List<Flight> flights) {
+        this.flights = flights;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -39,6 +43,7 @@ public class Eticket implements Serializable {
         result = 31 * result + (flights != null ? flights.hashCode() : 0);
         return result;
     }
+
 
     @Override
     public String toString() {

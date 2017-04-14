@@ -18,6 +18,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
  * @author lanwen (Merkushev Kirill)
  */
 public class TicketEndpoint implements WiremockCustomizer {
+
+    public static final String X_TICKET_ID_HEADER = "X-Ticket-ID";
+
     @Override
     public void customize(WireMockServer server) {
         String uuid = UUID.randomUUID().toString();
@@ -26,14 +29,18 @@ public class TicketEndpoint implements WiremockCustomizer {
                 post(urlPathEqualTo("/ticket"))
                         .willReturn(aResponse()
                                 .withStatus(201)
-                                .withHeader("X-Ticket-ID", uuid))
+                                .withHeader(
+                                        "Location",
+                                        String.format("http://localhost:%s/ticket/%s", server.port(), uuid)
+                                )
+                                .withHeader(X_TICKET_ID_HEADER, uuid))
         );
 
         server.stubFor(
                 get(urlPathEqualTo("/ticket/" + uuid))
                         .willReturn(aResponse()
                                 .withStatus(200)
-                                .withHeader("X-Ticket-ID", uuid)
+                                .withHeader(X_TICKET_ID_HEADER, uuid)
                                 .withBody(cp("ticket.json"))
                         )
         );
