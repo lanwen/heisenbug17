@@ -68,46 +68,52 @@ public class EticketResourceTest {
 
     @Test
     void shouldSaveTicketProps(@Server(customizer = TicketEndpoint.class) WireMockServer server, @Uri String uri) {
-        Eticket original = new Eticket();
-        original.setMeta(new Meta().withSchemaVersion("V1"));
-        Flight flight = new Flight();
-        Airline airline = new Airline();
-        airline.setIata("S7");
-        airline.setName("S7 Airlines");
-        flight.setAirline(airline);
-        Departure dep = new Departure();
-        dep.setScheduled("2017-04-29T10:25:00+03:00");
-        dep.setIata("VOZ");
-        dep.setName("Чертовицкое");
-        City depCity = new City();
-        depCity.setName("Воронеж");
-        depCity.setLatitude(51.661535);
-        depCity.setLongitude(39.200287);
-        dep.setCity(depCity);
-        Country countryDep = new Country();
-        countryDep.setName("Россия");
-        countryDep.setLongitude(99.505405);
-        countryDep.setLatitude(61.698653);
-        dep.setCountry(countryDep);
-        dep.setTz("Europe/Moscow");
-        flight.setDeparture(dep);
-        Arrival arr = new Arrival();
-        arr.setName("Домодедово");
-        arr.setIata("DME");
-        arr.setScheduled("2017-04-29T11:40:00+03:00");
-        City_ cityArr = new City_();
-        cityArr.setName("Москва");
-        cityArr.setLatitude(55.75396);
-        cityArr.setLongitude(37.620393);
-        arr.setCity(cityArr);
-        Country_ countryArr = new Country_();
-        countryArr.setName("Россия");
-        countryArr.setLatitude(61.698653);
-        countryArr.setLongitude(99.505405);
-        arr.setCountry(countryArr);
-        flight.setArrival(arr);
-        flight.setNumber("S7 232");
-        original.setFlights(Collections.singletonList(flight));
+        Eticket original = new Eticket()
+                .withMeta(new Meta().withSchemaVersion("V1"))
+                .withFlights(Collections.singletonList(
+                        new Flight()
+                                .withNumber("S7 232")
+                                .withAirline(
+                                        new Airline()
+                                                .withIata("S7")
+                                                .withName("S7 Airlines")
+                                )
+                                .withDeparture(
+                                        new Departure()
+                                                .withName("Чертовицкое")
+                                                .withIata("VOZ")
+                                                .withScheduled("2017-04-29T10:25:00+03:00")
+                                                .withCity(
+                                                        new City()
+                                                                .withName("Воронеж")
+                                                                .withLatitude(51.661535)
+                                                                .withLongitude(39.200287)
+                                                )
+                                                .withCountry(
+                                                        new Country()
+                                                                .withName("Россия")
+                                                                .withLatitude(61.698653)
+                                                                .withLongitude(99.505405)
+                                                )
+                                                .withTz("Europe/Moscow")
+                                )
+                                .withArrival(
+                                        new Arrival()
+                                                .withName("Домодедово")
+                                                .withIata("DME")
+                                                .withScheduled("2017-04-29T11:40:00+03:00")
+                                                .withCity(
+                                                        new City_()
+                                                                .withName("Москва")
+                                                                .withLatitude(55.75396)
+                                                                .withLongitude(37.620393)
+                                                )
+                                                .withCountry(new Country_()
+                                                        .withName("Россия")
+                                                        .withLatitude(61.698653)
+                                                        .withLongitude(99.505405))
+                                )
+                ));
 
         TicketApi api = TicketApi.connect(uri);
 
