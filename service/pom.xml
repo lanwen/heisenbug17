@@ -45,6 +45,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
+
+        <dependency>
             <groupId>ru.lanwen</groupId>
             <artifactId>lib</artifactId>
             <scope>test</scope>
@@ -57,5 +63,32 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <!--http://joelittlejohn.github.io/jsonschema2pojo/site/0.4.33/generate-mojo.html-->
+            <plugin>
+                <groupId>org.jsonschema2pojo</groupId>
+                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+                <version>0.4.33</version>
+                <configuration>
+                    <sourceDirectory>src/main/resources/json</sourceDirectory>
+                    <outputDirectory>${project.build.directory}/generated-sources/java-gen</outputDirectory>
+                    <targetPackage>ru.lanwen.heisenbug.beans</targetPackage>
+                    <annotationStyle>jackson2</annotationStyle>
+                    <sourceType>json</sourceType>
+                    <generateBuilders>true</generateBuilders>
+                    <useCommonsLang3>true</useCommonsLang3>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

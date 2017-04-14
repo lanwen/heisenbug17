@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "schema_version": "V1"
+  },
+  "flights": [
+    {
+      "number": "S7 232",
+      "airline": {
+        "name": "S7 Airlines",
+        "iata": "S7",
+        "icao": null
+      },
+      "departure": {
+        "scheduled": "2017-04-29T10:25:00+03:00",
+        "iata": "VOZ",
+        "name": "Чертовицкое",
+        "city": {
+          "name": "Воронеж",
+          "latitude": 51.661535,
+          "longitude": 39.200287
+        },
+        "country": {
+          "name": "Россия",
+          "latitude": 61.698653,
+          "longitude": 99.505405
+        },
+        "tz": "Europe/Moscow"
+      },
+      "arrival": {
+        "scheduled": "2017-04-29T11:40:00+03:00",
+        "iata": "DME",
+        "name": "Домодедово",
+        "city": {
+          "name": "Москва",
+          "latitude": 55.75396,
+          "longitude": 37.620393
+        },
+        "country": {
+          "name": "Россия",
+          "latitude": 61.698653,
+          "longitude": 99.505405
+        },
+        "tz": null
+      }
+    }
+  ]
+}
