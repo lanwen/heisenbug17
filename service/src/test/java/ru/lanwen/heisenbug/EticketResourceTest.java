@@ -108,10 +108,12 @@ public class EticketResourceTest {
                                                                 .withLatitude(55.75396)
                                                                 .withLongitude(37.620393)
                                                 )
-                                                .withCountry(new Country_()
-                                                        .withName("Россия")
-                                                        .withLatitude(61.698653)
-                                                        .withLongitude(99.505405))
+                                                .withCountry(
+                                                        new Country_()
+                                                                .withName("Россия")
+                                                                .withLatitude(61.698653)
+                                                                .withLongitude(99.505405)
+                                                )
                                 )
                 ));
 
