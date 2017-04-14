@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "scheduled": {
+      "type": "string"
+    },
+    "iata": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "tz": {
+      "type": "string"
+    },
+    "city": {
+      "$ref": "region.json"
+    },
+    "country": {
+      "$ref": "region.json"
+    }
+  }
+}

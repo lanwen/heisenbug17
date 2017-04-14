@@ -8,12 +8,8 @@ import ru.lanwen.heisenbug.WiremockAddressResolver.Uri;
 import ru.lanwen.heisenbug.WiremockResolver.Server;
 import ru.lanwen.heisenbug.app.TicketEndpoint;
 import ru.lanwen.heisenbug.beans.Airline;
-import ru.lanwen.heisenbug.beans.Arrival;
+import ru.lanwen.heisenbug.beans.Airport;
 import ru.lanwen.heisenbug.beans.City;
-import ru.lanwen.heisenbug.beans.City_;
-import ru.lanwen.heisenbug.beans.Country;
-import ru.lanwen.heisenbug.beans.Country_;
-import ru.lanwen.heisenbug.beans.Departure;
 import ru.lanwen.heisenbug.beans.Eticket;
 import ru.lanwen.heisenbug.beans.Flight;
 import ru.lanwen.heisenbug.beans.Meta;
@@ -79,7 +75,7 @@ public class EticketResourceTest {
                                                 .withName("S7 Airlines")
                                 )
                                 .withDeparture(
-                                        new Departure()
+                                        new Airport()
                                                 .withName("Чертовицкое")
                                                 .withIata("VOZ")
                                                 .withScheduled("2017-04-29T10:25:00+03:00")
@@ -90,7 +86,7 @@ public class EticketResourceTest {
                                                                 .withLongitude(39.200287)
                                                 )
                                                 .withCountry(
-                                                        new Country()
+                                                        new City()
                                                                 .withName("Россия")
                                                                 .withLatitude(61.698653)
                                                                 .withLongitude(99.505405)
@@ -98,18 +94,18 @@ public class EticketResourceTest {
                                                 .withTz("Europe/Moscow")
                                 )
                                 .withArrival(
-                                        new Arrival()
+                                        new Airport()
                                                 .withName("Домодедово")
                                                 .withIata("DME")
                                                 .withScheduled("2017-04-29T11:40:00+03:00")
                                                 .withCity(
-                                                        new City_()
+                                                        new City()
                                                                 .withName("Москва")
                                                                 .withLatitude(55.75396)
                                                                 .withLongitude(37.620393)
                                                 )
                                                 .withCountry(
-                                                        new Country_()
+                                                        new City()
                                                                 .withName("Россия")
                                                                 .withLatitude(61.698653)
                                                                 .withLongitude(99.505405)
