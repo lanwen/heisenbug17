@@ -67,6 +67,11 @@
             <artifactId>jaxb2-basics</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>ru.yandex.qatools.processors</groupId>
+            <artifactId>feature-matcher-generator</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 
