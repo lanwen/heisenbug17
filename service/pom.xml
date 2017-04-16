@@ -90,6 +90,19 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>ru.lanwen</groupId>
+                <artifactId>versiongen-maven-plugin</artifactId>
+                <version>${project.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-version-class</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>ru.lanwen.raml</groupId>
                 <artifactId>rarc-maven-plugin</artifactId>
                 <version>1.2.1</version>
