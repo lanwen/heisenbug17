@@ -1,0 +1,11 @@
+#%RAML 0.8
+title: Tickets
+baseUri: https://api.example.com
+/ticket:
+  post:
+    displayName: upload
+    description: Upload new ticket
+  /{uuid}:
+    get:
+      displayName: fetch
+      description: Fetch ticket by uuid

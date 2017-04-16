@@ -1,12 +1,13 @@
 package ru.lanwen.heisenbug;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import feign.Response;
+import io.restassured.builder.RequestSpecBuilder;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import ru.lanwen.heisenbug.WiremockAddressResolver.Uri;
 import ru.lanwen.heisenbug.WiremockResolver.Server;
+import ru.lanwen.heisenbug.api.ApiTickets;
 import ru.lanwen.heisenbug.app.TicketEndpoint;
 import ru.lanwen.heisenbug.beans.Airline;
 import ru.lanwen.heisenbug.beans.Airport;
@@ -17,18 +18,20 @@ import ru.lanwen.heisenbug.beans.Region;
 import ru.lanwen.heisenbug.beans.SchemaVersion;
 
 import java.time.ZonedDateTime;
-import java.util.Collection;
 import java.util.Collections;
 
+import static java.util.function.Function.identity;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.lanwen.heisenbug.api.ApiTickets.Config.ticketsConfig;
+import static ru.lanwen.heisenbug.api.ApiTickets.tickets;
 import static ru.lanwen.heisenbug.app.TicketEndpoint.X_TICKET_ID_HEADER;
 import static ru.lanwen.heisenbug.beans.AirportMatchers.withIata;
 import static ru.lanwen.heisenbug.beans.AirportMatchers.withScheduled;
@@ -47,15 +50,13 @@ class EticketResourceTest {
 
     @Test
     void shouldCreateTicket(@Server(customizer = TicketEndpoint.class) WireMockServer server, @Uri String uri) {
-        TicketApi api = TicketApi.connect(uri);
+        String id = api(uri).ticket()
+                .withReq(spec -> spec.setBody(new Eticket()))
+                .upload(identity())
+                .then().assertThat().header(X_TICKET_ID_HEADER, not(isEmptyOrNullString()))
+                .extract().header(X_TICKET_ID_HEADER);
 
-        Response response = api.create(new Eticket());
-        Collection<String> ids = response.headers().get(X_TICKET_ID_HEADER);
-
-        assertThat("ids", ids, hasSize(1));
-
-        Eticket ticket = api.get(ids.iterator().next());
-
+        Eticket ticket = api(uri).ticket().uuid().withUuid(id).fetch(identity()).as(Eticket.class);
         assertThat(ticket, is(notNullValue()));
     }
 
@@ -64,13 +65,10 @@ class EticketResourceTest {
      */
     @Test
     void shouldPassTicketAssertion(@Server(customizer = TicketEndpoint.class) WireMockServer server, @Uri String uri) {
-        Eticket ticket = TicketApi.connect(uri).get("unknown");
-
-        // Ticket должен быть null!
-        assertThrows(
-                AssertionError.class,
-                () -> assertThat(ticket, is(notNullValue()))
-        );
+        api(uri).ticket().uuid().withUuid("unknown")
+                .fetch(identity())
+                .then().assertThat().statusCode(is(200))
+                .extract().as(Eticket.class);
     }
 
     @Test
@@ -125,10 +123,11 @@ class EticketResourceTest {
                                 )
                 ));
 
-        TicketApi api = TicketApi.connect(uri);
 
-        String id = api.create(original).headers().get(X_TICKET_ID_HEADER).iterator().next();
-        Eticket ticket = api.get(id);
+        String id = api(uri).ticket()
+                .withReq(spec -> spec.setBody(original))
+                .upload(identity()).header(X_TICKET_ID_HEADER);
+        Eticket ticket = api(uri).ticket().uuid().withUuid(id).fetch(identity()).as(Eticket.class);
 
         assertThat(ticket.getFlights(), hasItem(
                 allOf(
@@ -136,5 +135,14 @@ class EticketResourceTest {
                         withArrival(withIata(containsString("DME")))
                 )
         ));
+    }
+
+    private static ApiTickets api(@Uri String uri) {
+        return tickets(
+                ticketsConfig()
+                        .withReqSpecSupplier(
+                                () -> new RequestSpecBuilder().setBaseUri(uri)
+                        )
+        );
     }
 }

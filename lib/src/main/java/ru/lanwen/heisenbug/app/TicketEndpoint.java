@@ -40,6 +40,7 @@ public class TicketEndpoint implements WiremockCustomizer {
                 get(urlPathEqualTo("/ticket/" + uuid))
                         .willReturn(aResponse()
                                 .withStatus(200)
+                                .withHeader("Content-Type", "application/json")
                                 .withHeader(X_TICKET_ID_HEADER, uuid)
                                 .withBody(cp("ticket.json"))
                         )
