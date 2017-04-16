@@ -23,7 +23,10 @@ public class JavapoetCodeWriter extends CodeWriter {
 
     @Override
     public void writeTo(Filer filer) {
-        TypeSpec.Builder constsClass = TypeSpec.classBuilder("JavapoetTestMethodConsts")
+        String pkg = "ru.lanwen.heisenbug.consts";
+        String className = "JavapoetTestMethodConsts";
+
+        TypeSpec.Builder constsClass = TypeSpec.classBuilder(className)
                 .addModifiers(PUBLIC, FINAL);
 
         consts.forEach(
@@ -35,8 +38,7 @@ public class JavapoetCodeWriter extends CodeWriter {
         );
 
         try {
-            JavaFile.builder("ru.lanwen.heisenbug.consts", constsClass.build())
-                    .build().writeTo(filer);
+            JavaFile.builder(pkg, constsClass.build()).build().writeTo(filer);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
