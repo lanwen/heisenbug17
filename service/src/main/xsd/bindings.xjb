@@ -4,11 +4,20 @@
                xmlns:annox="http://annox.dev.java.net"
                jaxb:extensionBindingPrefixes="itn annox"
                xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
-               >
+>
 
     <jaxb:globalBindings>
         <xjc:serializable uid="271283517"/>
         <xjc:simple/>
+        <jaxb:javaType
+                name="java.time.ZonedDateTime"
+                xmlType="xs:dateTime"
+                parseMethod="ru.lanwen.heisenbug.json.ZonedDateTimeJaxbAdapter.parseDate"
+                printMethod="ru.lanwen.heisenbug.json.ZonedDateTimeJaxbAdapter.printDate"/>
     </jaxb:globalBindings>
+
+    <jaxb:bindings node="//xs:complexType[@name='Eticket']" schemaLocation="eticket.xsd">
+        <annox:annotate target="class">@javax.annotation.Generated({"heisenbug"})</annox:annotate>
+    </jaxb:bindings>
 
 </jaxb:bindings>

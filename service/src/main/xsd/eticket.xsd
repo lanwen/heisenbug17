@@ -44,7 +44,7 @@
 
     <xs:complexType name="Airport">
         <xs:sequence>
-            <xs:element name="scheduled" type="xs:string"/>
+            <xs:element name="scheduled" type="xs:dateTime"/>
             <xs:element name="iata" type="xs:string"/>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="city" type="ns:Region"/>

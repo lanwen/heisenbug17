@@ -25,6 +25,7 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.lanwen.heisenbug.app.TicketEndpoint.X_TICKET_ID_HEADER;
+import static ru.lanwen.heisenbug.json.ZonedDateTimeJaxbAdapter.parseDate;
 
 /**
  * @author lanwen (Merkushev Kirill)
@@ -79,7 +80,7 @@ class EticketResourceTest {
                                         new Airport()
                                                 .withName("Чертовицкое")
                                                 .withIata("VOZ")
-                                                .withScheduled("2017-04-29T10:25:00+03:00")
+                                                .withScheduled(parseDate("2017-04-29T10:25:00+03:00"))
                                                 .withCity(
                                                         new Region()
                                                                 .withName("Воронеж")
@@ -98,7 +99,7 @@ class EticketResourceTest {
                                         new Airport()
                                                 .withName("Домодедово")
                                                 .withIata("DME")
-                                                .withScheduled("2017-04-29T11:40:00+03:00")
+                                                .withScheduled(parseDate("2017-04-29T11:40:00+03:00"))
                                                 .withCity(
                                                         new Region()
                                                                 .withName("Москва")
