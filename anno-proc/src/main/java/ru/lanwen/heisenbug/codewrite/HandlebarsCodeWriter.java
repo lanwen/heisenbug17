@@ -37,6 +37,7 @@ public class HandlebarsCodeWriter extends CodeWriter {
             Template template = handlebars().compile("consts");
 
             try (Writer writer = jfo.openWriter()) {
+                // Просто передаем модель данных
                 template.apply(
                         Context.newContext(new Object())
                                 .data("package", pkg)
