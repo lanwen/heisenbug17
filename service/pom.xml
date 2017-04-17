@@ -105,16 +105,6 @@
                     <extension>true</extension>
                     <verbose>true</verbose>
                     <readOnly>true</readOnly>
-                    <args>
-                        <arg>-enableIntrospection</arg>
-                        <arg>-no-header</arg>
-                        <arg>-Xxew</arg>
-                        <arg>-Xxew:instantiate lazy</arg>
-                        <arg>-Xfluent-api</arg>
-                        <arg>-Xinheritance</arg>
-                        <arg>-Xannotate</arg>
-                        <arg>-Xvalue-constructor</arg>
-                    </args>
                     <plugins>
                         <plugin>
                             <groupId>org.jvnet.jaxb2_commons</groupId>
