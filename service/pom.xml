@@ -72,7 +72,7 @@
                 <artifactId>jsonschema2pojo-maven-plugin</artifactId>
                 <version>0.4.33</version>
                 <configuration>
-                    <sourceDirectory>src/main/resources/json</sourceDirectory>
+                    <sourceDirectory>${project.basedir}/src/main/resources/json</sourceDirectory>
                     <outputDirectory>${project.build.directory}/generated-sources/java-gen</outputDirectory>
                     <targetPackage>ru.lanwen.heisenbug.beans</targetPackage>
                     <annotationStyle>jackson2</annotationStyle>
