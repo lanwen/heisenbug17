@@ -54,6 +54,24 @@ https://github.com/yandex-qatools/hamcrest-pojo-matcher-generator
 Солянка разных
 https://github.com/google/auto
 
+## Шаблонизаторы
+
+- Logic-less and semantic Mustache templates with Java
+Удобные, без логики, довольно куцые шаблоны. Очень легко воспринимаются. Отлично для старта.
+https://github.com/jknack/handlebars.java
+
+- Apache FreeMarker is a template engine: a Java library to generate text output
+Один из самых распространенных в java. Умеет очень много, довольно быстрый.
+Сильно полноценнее mustache, но и сложнее для освоения и восприятия.
+http://freemarker.org
+
+- StringTemplate is a java template engine (with ports for C#, Objective-C, JavaScript, Scala) for generating source code, web pages, emails, or any other formatted text output.
+Несколько маргинальная либа для шаблонизации, но много умеет и входит в состав ANTLR тулчейна (популярная либа для грамматик по обработке текста). Очень быстрая.
+http://www.stringtemplate.org
+
+- Velocity is a Java-based template engine. It permits anyone to use a simple yet powerful template language to reference objects defined in Java code.
+По возможностям близко к freemarker, но ооочень давно не обновляется и сильно устарела по api, удобству, скорости итд. Здесь чтобы просто быть.
+http://velocity.apache.org
 
 ## Для тестирования
 
