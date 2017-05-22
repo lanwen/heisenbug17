@@ -2,6 +2,7 @@ package ru.lanwen.heisenbug;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import io.restassured.builder.RequestSpecBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,7 @@ import ru.lanwen.heisenbug.beans.EticketMeta;
 import ru.lanwen.heisenbug.beans.Flight;
 import ru.lanwen.heisenbug.beans.Region;
 import ru.lanwen.heisenbug.beans.SchemaVersion;
+import ru.lanwen.heisenbug.consts.JavapoetTestMethodConsts;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
@@ -37,6 +39,9 @@ import static ru.lanwen.heisenbug.beans.AirportMatchers.withIata;
 import static ru.lanwen.heisenbug.beans.AirportMatchers.withScheduled;
 import static ru.lanwen.heisenbug.beans.FlightMatchers.withArrival;
 import static ru.lanwen.heisenbug.beans.FlightMatchers.withDeparture;
+import static ru.lanwen.heisenbug.consts.JavapoetTestMethodConsts.TEST_METHOD_shouldCreateTicket;
+import static ru.lanwen.heisenbug.consts.JavapoetTestMethodConsts.TEST_METHOD_shouldPassTicketAssertion;
+import static ru.lanwen.heisenbug.consts.JavapoetTestMethodConsts.TEST_METHOD_shouldSaveTicketProps;
 import static ru.lanwen.heisenbug.json.ZonedDateTimeJaxbAdapter.parseDate;
 
 /**
@@ -46,10 +51,13 @@ import static ru.lanwen.heisenbug.json.ZonedDateTimeJaxbAdapter.parseDate;
         WiremockResolver.class,
         WiremockAddressResolver.class
 })
+@Slf4j
 class EticketResourceTest {
 
     @Test
     void shouldCreateTicket(@Server(customizer = TicketEndpoint.class) WireMockServer server, @Uri String uri) {
+        log.debug(TEST_METHOD_shouldCreateTicket);
+
         String id = api(uri).ticket()
                 .withReq(spec -> spec.setBody(new Eticket()))
                 .upload(identity())
@@ -65,6 +73,8 @@ class EticketResourceTest {
      */
     @Test
     void shouldPassTicketAssertion(@Server(customizer = TicketEndpoint.class) WireMockServer server, @Uri String uri) {
+        log.debug(TEST_METHOD_shouldPassTicketAssertion);
+
         api(uri).ticket().uuid().withUuid("unknown")
                 .fetch(identity())
                 .then().assertThat().statusCode(is(200))
@@ -74,6 +84,8 @@ class EticketResourceTest {
     @Test
     @SuppressWarnings("unchecked")
     void shouldSaveTicketProps(@Server(customizer = TicketEndpoint.class) WireMockServer server, @Uri String uri) {
+        log.debug(TEST_METHOD_shouldSaveTicketProps);
+
         Eticket original = new Eticket()
                 .withMeta(new EticketMeta().withSchemaVersion(SchemaVersion.V_1))
                 .withFlights(Collections.singletonList(
