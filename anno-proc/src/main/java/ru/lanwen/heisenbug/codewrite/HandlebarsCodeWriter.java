@@ -2,7 +2,6 @@ package ru.lanwen.heisenbug.codewrite;
 
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.AbstractTemplateLoader;
 import com.github.jknack.handlebars.io.StringTemplateSource;
 import com.github.jknack.handlebars.io.TemplateLoader;
@@ -22,35 +21,52 @@ import java.util.Map;
  */
 public class HandlebarsCodeWriter extends CodeWriter {
 
+    /**
+     * @param consts список полей, прилетает с верхнего уровня
+     */
     public HandlebarsCodeWriter(Map<String, String> consts) {
         super(consts);
     }
 
     @Override
-    public void writeTo(Filer filer) {
-        try {
-            String pkg = "ru.lanwen.heisenbug.consts";
-            String className = "HandlebarsTestMethodConsts";
+    protected void writeExceptionally(Filer filer) throws IOException {
+       /*
+        * Координаты генерируемого класса - пакет и имя
+        */
+        String pkg = "ru.lanwen.heisenbug.consts";
+        String className = "HandlebarsTestMethodConsts";
 
-            JavaFileObject jfo = filer.createSourceFile(pkg + "." + className);
+        JavaFileObject sourceFile = filer.createSourceFile(pkg + "." + className);
 
-            Template template = handlebars().compile("consts");
+        try (Writer writer = sourceFile.openWriter()) {
 
-            try (Writer writer = jfo.openWriter()) {
-                // Просто передаем модель данных
-                template.apply(
-                        Context.newContext(new Object())
-                                .data("package", pkg)
-                                .data("class", className)
-                                .data("consts", consts.entrySet()),
-                        writer
-                );
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+          /*
+           *
+           * вся соль тут, до этого, просто подготовка
+           *      |
+           *      |
+           *      V
+           */
+
+            handlebars().compile("consts").apply(
+                    // Так отдаем шаблонизатору данные
+                    Context.newContext(new Object())
+                            .data("package", pkg)
+                            .data("class", className)
+                            .data("consts", consts.entrySet()),
+                    writer
+            );
+
+
+            /*
+             * ---------------------------------------------
+             */
         }
     }
 
+    /**
+     * Настраиваем шаблонизатор, чтобы он знал как из ресурсов доставать шаблоны
+     */
     private Handlebars handlebars() {
         TemplateLoader loader = new AbstractTemplateLoader() {
             @Override

@@ -23,6 +23,9 @@ public class MethodConstantsWriter extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        /*
+         * Второй раз нам наши сорцы не интересны
+         */
         if (roundEnv.processingOver()) {
             return false;
         }
@@ -31,17 +34,38 @@ public class MethodConstantsWriter extends AbstractProcessor {
             return false;
         }
 
+
+        /*
+         * Пробегаемся по интересным нам аннотациям (она одна на самом деле)
+         */
+
         Map<String, String> consts = annotations
                 .stream()
-                .flatMap(
+                .flatMap( // обмен аннотаций на методы
                         annotation -> roundEnv.getElementsAnnotatedWith(annotation).stream()
                 )
                 .collect(toMap(
+                        // имя константы
                         element -> "TEST_METHOD_" + element.getSimpleName(),
+
+                        // ее значение
                         element -> element.getEnclosingElement().asType().toString() + "#" + element.getSimpleName()
                 ));
 
+
+        /*-------------
+         *
+         * ИМПЕРАТИВНО
+         *
+         *------------*/
         new JavapoetCodeWriter(consts).writeTo(processingEnv.getFiler());
+
+
+        /*-------------
+         *
+         * ДЕКЛАРАТИВНО (Через шаблонизатор)
+         *
+         *------------*/
         new HandlebarsCodeWriter(consts).writeTo(processingEnv.getFiler());
 
         return false;

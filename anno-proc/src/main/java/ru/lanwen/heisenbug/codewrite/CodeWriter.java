@@ -1,6 +1,7 @@
 package ru.lanwen.heisenbug.codewrite;
 
 import javax.annotation.processing.Filer;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -13,5 +14,13 @@ public abstract class CodeWriter {
         this.consts = consts;
     }
 
-    public abstract void writeTo(Filer filer);
+    public void writeTo(Filer filer) {
+        try {
+            writeExceptionally(filer);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    protected abstract void writeExceptionally(Filer filer) throws IOException;
 }

@@ -17,30 +17,38 @@ import static javax.lang.model.element.Modifier.STATIC;
  * @author lanwen (Merkushev Kirill)
  */
 public class JavapoetCodeWriter extends CodeWriter {
+    /**
+     * @param consts список полей, прилетает с верхнего уровня
+     */
     public JavapoetCodeWriter(Map<String, String> consts) {
         super(consts);
     }
 
     @Override
-    public void writeTo(Filer filer) {
+    protected void writeExceptionally(Filer filer) throws IOException {
+       /*
+        * Координаты генерируемого класса - пакет и имя
+        */
         String pkg = "ru.lanwen.heisenbug.consts";
         String className = "JavapoetTestMethodConsts";
 
+        // Наш класс
         TypeSpec.Builder constsClass = TypeSpec.classBuilder(className)
                 .addModifiers(PUBLIC, FINAL);
 
-        consts.forEach(
-                (key, value) -> constsClass.addField(
+
+        consts.forEach( // для каждого найденного метода (будущей константы)
+
+                (key, value) -> constsClass.addField( // добавляем поле
+
                         FieldSpec.builder(ClassName.get(String.class), key, PUBLIC, STATIC, FINAL)
                                 .initializer("$S", value)
                                 .build()
                 )
         );
 
-        try {
-            JavaFile.builder(pkg, constsClass.build()).build().writeTo(filer);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        // Записываем исходник на диск
+        JavaFile.builder(pkg, constsClass.build()).build().writeTo(filer);
     }
 }
