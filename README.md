@@ -24,6 +24,8 @@ https://github.com/highsource/jaxb2-annotate-plugin
 Упрощает сгенерированные классы
 https://github.com/dmak/jaxb-xew-plugin
 
+- Наследование от кастомного класса
+http://docs.oracle.com/cd/E17802_01/webservices/webservices/docs/2.0/jaxb/vendorCustomizations.html
 
 ## Annotation processors
 
